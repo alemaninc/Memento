@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="interface.css" />
+		<meta charset="utf-8"/>
+		<title>Memento</title>
+		<script type="module" src="src/initialize.js"></script>
+	</head>
+	<body>
+		<div id="div_header">
+		</div>
+		<div id="div_body">
+			<div class="window" id="window_startMenu">
+				<h1>Memento</h1>
+				<button class="menuButton" id="button_openQuizEditor">Make a quiz</button>
+				<button class="menuButton" id="button_playQuiz">Take a quiz</button>
+			</div>
+			<div class="window" id="window_openQuizEditor" style="display: none;">
+				<h2>Quiz Editor</h2>
+				<button class="menuButton" id="button_createNewQuiz">Create blank quiz</button>
+				<button class="menuButton" id="button_openImportQuizWindow">Open file</button>
+			</div>
+			<div class="window" id="window_importQuiz" style="display: none;">
+				<h2>Quiz Editor</h2>
+				<label for="input_importQuiz" class="menuButton">Select file:</label>
+				<input type="file" accept=".txt" id="input_importQuiz" style="display:none">
+				<button class="menuButton" id="button_importQuiz">Open file</button>
+			</div>
+			<div class="window" id="window_quizEditor" style="display: none;">
+				<h2>Quiz Editor</h2>
+				
+			</div>
+		</div>
+		<div id="div_notificationBox"></div>
+	</body>
+</html>

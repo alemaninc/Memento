@@ -1,0 +1,93 @@
+* {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	text-align: center;
+}
+h1, h2, h3, h4, h5, h6 {
+	color: #bb55ff;
+}
+h1 {
+	font-size: 60px;
+}
+h2 {
+	font-size: 40px;
+}
+#div_header {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100px;
+	width: 100vw;
+	background-color: #000000;
+	color: #ffffff;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: #ffffff;
+	z-index: 1;
+}
+#div_body {
+	position: fixed;
+	top: 100px;
+	left: 0px;
+	height: calc(100vh - 100px);
+	width: 100vw;
+	background-color: #000000;
+	color: #ffffff;
+}
+.menuButton, ::file-selector-button {
+	height: 60px;
+	width: 400px;
+	color: #ffffff;
+	font-size: 25px;
+	display: inline-block;
+	background-color: rgba(0, 0, 0, 0);
+	border-style: none;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	&:hover {
+		color: #cc99ff;
+		transition: ease;
+		transition-duration: 0.3s;
+	}
+}
+::file-selector-button:hover {
+	color: #cc99ff;
+	transition: ease;
+	transition-duration: 0.3s;
+}
+#div_notificationBox {
+	position: fixed;
+	height: 0px;
+	right: 0px;
+	z-index: 1;
+}
+.notification {
+	max-width: min(700px, 75vw);
+	font-size: 16px;
+	vertical-align: center;
+	text-align: center;
+	background-color: #330055;
+	color: #bb55ff;
+	position: relative;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 4px;
+	border-color: #bb55ff;
+  animation-duration: 6s;
+  animation-name: notification;
+	animation-timing-function: cubic-bezier(0.5, 1, 0.75, 1.1);
+	padding: 4px;
+	margin: 4px;
+}
+@keyframes notification {
+	0% {
+		left: 750px;
+	}
+	15% {
+		left: 0px;
+	}
+	85% {
+		left: 0px;
+	}
+	100% {
+		left: 750px;
+	}
+}
