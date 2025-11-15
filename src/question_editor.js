@@ -214,11 +214,13 @@ export function inflateSelectedEditorQuestion() {
 	openQuestionInEditor();
 }
 export function deflateSelectedEditorQuestion() {
+	updateCurrentQuestionProperties();
 	let currentPartId = globalThis.mementoTemp.selectedQuestion.splice(globalThis.mementoTemp.selectedQuestion.length - 1, 1)[0];
 	readCurrentQuestionProperty("parts").splice(currentPartId, 1, ...structuredClone(readCurrentQuestionProperty("parts")[currentPartId].parts));
 	openQuestionInEditor();
 }
 export function duplicateSelectedEditorQuestion() {
+	updateCurrentQuestionProperties();
 	let currentQuestion = structuredClone(getCurrentQuestionObject());
 	let selected = globalThis.mementoTemp.selectedQuestion;
 	if (selected.length === 1) { // if this is a standalone question, append the clone to the main question bank
