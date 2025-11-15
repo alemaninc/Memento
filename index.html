@@ -7,29 +7,151 @@
 		<script type="module" src="src/initialize.js"></script>
 	</head>
 	<body>
-		<div id="div_header">
+		<div class="window" id="window_startMenu" style="display: inline-block;">
+			<h1>Memento</h1>
+			<button class="menuButton" id="button_openQuizEditorOpener">Make a quiz</button>
+			<button class="menuButton" id="button_openQuizPlayerOpener">Take a quiz</button>
 		</div>
-		<div id="div_body">
-			<div class="window" id="window_startMenu">
-				<h1>Memento</h1>
-				<button class="menuButton" id="button_openQuizEditor">Make a quiz</button>
-				<button class="menuButton" id="button_playQuiz">Take a quiz</button>
+		<div class="window" id="window_openQuizEditor" style="display: none;">
+			<h1>Memento</h1>
+			<button class="menuButton" id="button_createNewQuiz">Create blank quiz</button>
+			<button class="menuButton" id="button_openImportQuizWindowEditor">Import from file</button>
+			<button class="menuButton" id="button_openExemplarInEditor">Open exemplar quiz</button>
+			<button class="menuButton" id="button_openLocalStorageQuizEditor"></button>
+			<br>
+			<button class="menuButton" id="button_quizEditorOpenerReturnToStart">Go back</button>
+		</div>
+		<div class="window" id="window_importQuizEditor" style="display: none;">
+			<h1>Memento</h1>
+			<label for="input_importQuizEditor" class="menuButton" style="height: 0px;">Select file</label> <!-- a height of 0px makes it so that this button doesn't overhang the one after it and displace the next row-->
+			<input type="file" accept=".txt" id="input_importQuizEditor" style="display:none">
+			<button class="menuButton" id="button_importQuizEditor">Open file</button>
+			<br>
+			<button class="menuButton" id="button_quizImportWindowEditorReturnToOpener">Go back</button>
+		</div>
+		<div class="window" id="window_quizEditorRoot" style="display: none;">
+			<h2>Quiz Editor</h2>
+			<table id="table_quizEditorRoot">
+				<tr>
+					<td>Quiz Title</td>
+					<td contenteditable="true" id="td_quizEditor_quizTitle"></td>
+				</tr>
+				<tr>
+					<td>Quiz Abstract</td>
+					<td contenteditable="true" id="td_quizEditor_quizAbstract" data-blank_allowed="true"></td>
+				</tr>
+				<tr>
+					<td>Grading Scale</td>
+					<td><button id="button_openGradingScaleWindow">No grading</button></td>
+				</tr>
+				<tr>
+					<td>Questions</td>
+					<td><button id="button_openQuestionEditorWindow"></button></td>
+				</tr>
+			</table>
+			<button class="menuButton" id="button_exportQuiz">Download quiz</button>
+		</div>
+		<div class="window" id="window_changeGradingScale" style="display: none;">
+			<h2>Grading Scale</h2>
+			<button class="menuButton" id="button_setGradingScaleType0">No grading</button>
+			<button class="menuButton" id="button_setGradingScaleType1">Fixed grade thresholds</button>
+			<button class="menuButton" id="button_setGradingScaleType2">Adaptive grade thresholds</button>
+			<button class="menuButton" id="button_closeGradingScaleWindow">Return to quiz editor</button><br>
+			<table id="table_gradingScale"></table>
+		</div>
+		<div class="window" id="window_questionEditor" style="display: none;">
+			<h2>Question Editor</h2>
+			<button class="menuButton" id="button_createQuestion">Create question</button>
+			<button class="menuButton" id="button_closeQuestionEditorWindow">Return to quiz editor</button>
+			<div id="div_questionList"></div>
+		</div>
+		<div class="window" id="window_selectedEditorQuestion" style="display: none;">
+			<h2 id="span_selectedEditorQuestionHeader"></h2>
+			<div id="div_selectedQuestion">
+				<table id="table_selectedQuestion">
+					<tr>
+						<td>Question type</td>
+						<td id="td_changeQuestionType"></td>
+					</tr>
+					<tr>
+						<td>Question stem</td>
+						<td contenteditable="true" id="td_selectedQuestionStem" data-blank_allowed="true"></td>
+					</tr>
+					<tr>
+						<td id="td_questionEditorTypeSpecificHeading"></td>
+						<td id="td_questionEditorTypeSpecific"></td>
+					</tr>
+					<tr id="tr_questionEditorTypeSpecific2">
+						<td id="td_questionEditorTypeSpecificHeading2"></td>
+						<td id="td_questionEditorTypeSpecific2"></td>
+					</tr>
+					<tr id="tr_questionDifficulty">
+						<td>Question difficulty</td>
+						<td id="td_questionDifficulty"></td>
+					</tr>
+					<tr>
+						<td>Extra Options</td>
+						<td id="td_extraOptionList"></td>
+					</tr>
+				</table>
 			</div>
-			<div class="window" id="window_openQuizEditor" style="display: none;">
-				<h2>Quiz Editor</h2>
-				<button class="menuButton" id="button_createNewQuiz">Create blank quiz</button>
-				<button class="menuButton" id="button_openImportQuizWindow">Open file</button>
+			<button class="menuButton" id="button_closeSelectedEditorQuestion">Return to question selector</button>
+			<br>
+			<button class="menuButton" id="button_inflateSelectedEditorQuestion">Inflate current question</button>
+			<button class="menuButton" id="button_deflateSelectedEditorQuestion">Deflate current question</button>
+			<button class="menuButton" id="button_duplicateSelectedEditorQuestion">Duplicate current question</button>
+			<br>
+			<button class="menuButton" id="button_deleteSelectedEditorQuestion">Delete current question</button>
+		</div>
+		<div class="window" id="window_openQuizPlayer" style="display: none;">
+			<h1>Memento</h1>
+			<button class="menuButton" id="button_openImportQuizWindowPlayer">Import from file</button>
+			<button class="menuButton" id="button_playExemplar">Open exemplar quiz</button>
+			<button class="menuButton" id="button_playLocalStorageQuiz"></button>
+			<br>
+			<button class="menuButton" id="button_quizPlayerOpenerReturnToStart">Go back</button>
+		</div>
+		<div class="window" id="window_importQuizPlayer" style="display: none;">
+			<h1>Memento</h1>
+			<label for="input_importQuizPlayer" class="menuButton" style="height: 0px;">Select file</label> <!-- a height of 0px makes it so that this button doesn't overhang the one after it and displace the next row-->
+			<input type="file" accept=".txt" id="input_importQuizPlayer" style="display:none">
+			<button class="menuButton" id="button_importQuizPlayer">Open file</button>
+			<br>
+			<button class="menuButton" id="button_quizImportWindowPlayerReturnToOpener">Go back</button>
+		</div>
+		<div class="window" id="window_quizPlayerStart" style="display: none; width: 75vw;">
+			<h1 id="heading_quizPlayerStart"></h1>
+			<b style="float: left;">Quiz Abstract</b><br>
+			<div id="div_quizPlayerAbstract" style="text-align: left;"></div>
+			<br>
+			<div id="div_quizPlayerStartPart1">
+				<table id="table_totalMarkSelector">
+					<tr>
+						<td colspan="3" style="width: calc(75vw - 50px);"><label for="input_totalQuizMarks" style="font-weight: 700; color: #bb55ff; cursor: default">Total marks for this quiz = <span id="span_totalQuizMarks"></span></label></td>
+					</tr>
+					<tr>
+						<td style="width: 75px; text-align: right;" id="td_minMarkForFile"></td>
+						<td style="width: calc(75vw - 200px);">
+							<input type="range" step="1" id="input_totalQuizMarks" style="width: calc(75vw - 220px);">
+						</td>
+						<td style="width: 75px; text-align: left;" id="td_maxMarkForFile"></td>
+					</tr>
+				</table>
+				<button class="menuButton" id="button_showQuizInstructions">Continue</button>
 			</div>
-			<div class="window" id="window_importQuiz" style="display: none;">
-				<h2>Quiz Editor</h2>
-				<label for="input_importQuiz" class="menuButton">Select file:</label>
-				<input type="file" accept=".txt" id="input_importQuiz" style="display:none">
-				<button class="menuButton" id="button_importQuiz">Open file</button>
+			<div id="div_quizPlayerStartPart2" style="display: none;">
+				<b style="float: left;">Instructions</b><br>
+				<ul id="div_quizPlayerInstructions" style="text-align: left;"></ul>
+				<button class="menuButton" id="button_startQuiz">Start quiz</button>
 			</div>
-			<div class="window" id="window_quizEditor" style="display: none;">
-				<h2>Quiz Editor</h2>
-				
-			</div>
+		</div>
+		<div class="window" id="window_quizPlayer" style="display: none;">
+			<table id="div_quizPlayerTable" style="table-layout: fixed;"></table>
+			<button class="menuButton" id="button_startQuestion">Continue</button>
+			<button class="menuButton" id="button_markQuestion">Continue</button>
+		</div>
+		<div class="window" id="window_finalScore" style="display: none;">
+			<
 		</div>
 		<div id="div_notificationBox"></div>
 	</body>

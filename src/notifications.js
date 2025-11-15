@@ -1,4 +1,3 @@
-"use strict";
 export function createNotification(text) {
 	let notification = document.createElement("div")
 	notification.className = "notification";

@@ -1,9 +1,8 @@
 * {
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	text-align: center;
-}
-h1, h2, h3, h4, h5, h6 {
 	color: #bb55ff;
+	font-size: 20px;
 }
 h1 {
 	font-size: 60px;
@@ -11,51 +10,82 @@ h1 {
 h2 {
 	font-size: 40px;
 }
-#div_header {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height: 100px;
-	width: 100vw;
-	background-color: #000000;
-	color: #ffffff;
-	border-bottom-style: solid;
-	border-bottom-width: 2px;
-	border-bottom-color: #ffffff;
-	z-index: 1;
+div {
+	text-align: inherit;
+	padding: 0px;
+	margin: 0px;
 }
-#div_body {
-	position: fixed;
-	top: 100px;
-	left: 0px;
-	height: calc(100vh - 100px);
-	width: 100vw;
+ul {
+	margin: 0px;
+	li {
+		text-align: left;
+	}
+}
+body {
 	background-color: #000000;
 	color: #ffffff;
+}
+table {
+	tr {
+		td, th {
+			vertical-align: top;
+			text-align: left;
+			span[contenteditable="true"] {
+				width: 100%;
+			}
+		}
+	}
+}
+.borderedTable {
+	border-collapse: collapse;
+	tr {
+		td, th {
+			border-style: solid;
+			border-width: 1px;
+			color: #bb55ff;
+		}
+	}
+}
+.window {
+	z-index: 0;
+	width: calc(100vw - 50px);
 }
 .menuButton, ::file-selector-button {
 	height: 60px;
 	width: 400px;
-	color: #ffffff;
 	font-size: 25px;
-	display: inline-block;
+}
+button, label, ::file-selector-button, [contenteditable="true"] {
+	&:not(td) {
+		display: inline-block;
+	}
 	background-color: rgba(0, 0, 0, 0);
+	color: #ddeeff;
 	border-style: none;
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-	&:hover {
-		color: #cc99ff;
+	cursor: pointer;
+	transition-duration: 0.3s;
+	&.on {
+		color: #bb55ff;
+	}
+	&:hover, &.active {
+		color: #bb55ff;
 		transition: ease;
-		transition-duration: 0.3s;
+	}
+	&.active {
+		cursor: default;
 	}
 }
+[contenteditable="true"] {
+	text-align: left;
+}
 ::file-selector-button:hover {
-	color: #cc99ff;
+	color: #bb55ff;
 	transition: ease;
-	transition-duration: 0.3s;
 }
 #div_notificationBox {
 	position: fixed;
-	height: 0px;
+	top: 0px;
 	right: 0px;
 	z-index: 1;
 }
@@ -81,13 +111,120 @@ h2 {
 	0% {
 		left: 750px;
 	}
-	15% {
+	10% {
 		left: 0px;
 	}
-	85% {
+	90% {
 		left: 0px;
 	}
 	100% {
 		left: 750px;
 	}
+}
+#table_quizEditorRoot {
+	tr {
+		>:nth-child(1) {
+			width: 200px;
+			text-align: right;
+			padding-right: 30px;
+			padding-bottom: 15px;
+		}
+		>:nth-child(2) {
+			width: 600px;
+			text-align: left;
+			padding-bottom: 15px;
+		}
+	}
+}
+#table_gradingScale {
+	tr {
+		.gradingTableCol1 {
+			height: 26px;
+			min-width: 150px;
+			text-align: right;
+		}
+		.gradingTableCol2 {
+			height: 26px;
+			width: 80px;
+			text-align: right;
+		}
+		.gradingTableCol3 {
+			width: 60px;
+			text-align: center;
+			button {
+				transform: translateY(-14px);
+			}
+		}
+	}
+}
+.questionSummary {
+	height: 110px;
+	width: 300px;
+	background-color: #19002a;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 10px;
+	border-color: #6600aa;
+	color: #bb55ff;
+	margin: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	&:hover {
+		background-color: #330055;
+	}
+}
+#div_selectedQuestion {
+	background-color: #19002a;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #6600aa;
+	text-align: left;
+}
+#table_selectedQuestion {
+	tr {
+		>:nth-child(1) {
+			width: 180px;
+		}
+		>:nth-child(2) {
+			width: calc(100vw - 240px);
+		}
+	}
+}
+.questionOptionButton {
+	width: 240px;
+	text-align: center;
+}
+.questionOptions {
+	width: 100%;
+	font-size: 16px;
+	text-align: right;
+	div {
+		display: inline;
+	}
+	button, span {
+		font-size: 16px;
+		margin-left: 16px;
+	}
+}
+#table_totalMarkSelector {
+	tr {
+		td {
+			text-align: center;
+		}
+	}
+}
+.mcqButton {
+	height: 40px;
+	width: 300px;
+	font-size: 20px;
+	text-align: center;
+}
+input, textarea {
+	color: #000000;
+}
+input:focus {
+	width: fit-content;
+}
+textarea {
+	text-align: left;
 }
