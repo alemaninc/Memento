@@ -202,3 +202,6 @@ export function toggleButtonOn(event) {
 		event.target.classList.add("on");
 	}
 }
+export function trimString(string, maxLength) { // If a string is too long, cuts it off at an appropriate position near `maxLength` (i.e. the end of a word) and adds "...".
+	return (string.length > maxLength) ? (string.substring(0, maxLength - 10 + string.substring(maxLength - 10).indexOf(" ")) + "...") : string;
+}

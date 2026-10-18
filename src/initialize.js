@@ -1,12 +1,16 @@
-import { changeImportQuizButtonLabelEditor, changeImportQuizButtonLabelPlayer, createNewQuiz, downloadQuiz, importQuizEditor, importQuizPlayer, openExemplarInEditor, openExemplarInPlayer, openGradingScaleWindow, openImportQuizWindowEditor, openImportQuizWindowPlayer, openLocalStorageQuizInEditor, openLocalStorageQuizInPlayer, openQuizEditorOpener, openQuizEditorRoot, openQuizPlayerOpener, openStartMenu } from "./main_menu.js";
+import { addToTopicList, changeImportQuizButtonLabelEditor, changeImportQuizButtonLabelPlayer, createNewQuiz, downloadQuiz, importQuizEditor, importQuizPlayer, openExemplarInEditor, openExemplarInPlayer, openGradingScaleWindow, openImportQuizWindowEditor, openImportQuizWindowPlayer, openLocalStorageQuizInEditor, openLocalStorageQuizInPlayer, openQuizEditorOpener, openQuizEditorRoot, openQuizPlayerOpener, openStartMenu, openTopicList, readTopicListTable } from "./main_menu.js";
 import { createGrade, deleteGrade, setGradingScaleType, updateGradesFromTable } from "./grading_scale.js";
-import { changeCurrentQuestionProperty, closeSelectedEditorQuestion, createQuestion, deflateSelectedEditorQuestion, deleteSelectedEditorQuestion, duplicateSelectedEditorQuestion, inflateSelectedEditorQuestion, openQuestionEditor, setQuestionType, toggleExtraOption, updateCurrentQuestionProperties } from "./question_editor.js";
+import { changeCurrentQuestionProperty, closeSelectedEditorQuestion, createQuestion, cutSelectedEditorQuestion, deflateSelectedEditorQuestion, deleteSelectedEditorQuestion, duplicateSelectedEditorQuestion, filterEditorQuestions, inflateSelectedEditorQuestion, openQuestionEditor, pasteSelectedEditorQuestion, setQuestionType, toggleExtraOption, updateCurrentQuestionProperties } from "./question_editor.js";
 import { extraOptions, QuestionTypes } from "./question_types.js";
 import { createElement, unfocusEditableSpan } from "./html_support.js";
 import { saveEditorQuizToLocalStorage } from "./local_storage.js";
 import { markQuestion, openQuizPlayer, showQuizInstructions, startQuestion, startQuiz, updateTotalMarkInputDisplay } from "./question_player.js";
 
-globalThis.mementoTemp = {};
+globalThis.mementoTemp = {
+	misconfiguredMarkScheme: false,
+	selectedQuestion: [],
+	selectedMultiStepPart: undefined,
+};
 document.body.addEventListener("focusout", unfocusEditableSpan);
 // make editor reactive
 document.getElementById("button_openQuizEditorOpener").addEventListener("click", openQuizEditorOpener);
@@ -20,6 +24,7 @@ document.getElementById("button_quizEditorOpenerReturnToStart").addEventListener
 document.getElementById("button_quizImportWindowEditorReturnToOpener").addEventListener("click", openQuizEditorOpener);
 document.getElementById("td_quizEditor_quizTitle").addEventListener("focusout", function(event){globalThis.memento.quizTitle = event.target.innerHTML;})
 document.getElementById("td_quizEditor_quizAbstract").addEventListener("focusout", function(event){globalThis.memento.quizAbstract = event.target.innerHTML;})
+document.getElementById("td_quizEditor_quizInstructions").addEventListener("focusout", function(event){globalThis.memento.quizInstructions = event.target.innerHTML;})
 document.getElementById("button_openGradingScaleWindow").addEventListener("click", openGradingScaleWindow);
 document.getElementById("button_closeGradingScaleWindow").addEventListener("click", function(){updateGradesFromTable(); openQuizEditorRoot();});
 for (let gradingType = 0; gradingType < 3; gradingType++) {
@@ -27,13 +32,20 @@ for (let gradingType = 0; gradingType < 3; gradingType++) {
 }
 document.getElementById("table_gradingScale").addEventListener("click", createGrade);
 document.getElementById("table_gradingScale").addEventListener("click", deleteGrade);
+document.getElementById("button_openTopicList").addEventListener("click", openTopicList);
+document.getElementById("button_closeTopicList").addEventListener("click", function(){readTopicListTable(); openQuizEditorRoot();});
+document.getElementById("button_addToTopicList").addEventListener("click", addToTopicList);
 document.getElementById("button_openQuestionEditorWindow").addEventListener("click", openQuestionEditor);
+document.getElementById("button_pasteQuestionToRoot").addEventListener("click", pasteSelectedEditorQuestion);
 document.getElementById("button_closeQuestionEditorWindow").addEventListener("click", openQuizEditorRoot);
 document.getElementById("button_createQuestion").addEventListener("click", createQuestion);
+document.getElementById("button_filterEditorQuestions").addEventListener("click", filterEditorQuestions);
 document.getElementById("button_closeSelectedEditorQuestion").addEventListener("click", function(){updateCurrentQuestionProperties(); closeSelectedEditorQuestion();});
 document.getElementById("button_inflateSelectedEditorQuestion").addEventListener("click", inflateSelectedEditorQuestion);
 document.getElementById("button_deflateSelectedEditorQuestion").addEventListener("click", deflateSelectedEditorQuestion);
 document.getElementById("button_duplicateSelectedEditorQuestion").addEventListener("click", duplicateSelectedEditorQuestion);
+document.getElementById("button_cutSelectedEditorQuestion").addEventListener("click", cutSelectedEditorQuestion);
+document.getElementById("button_pasteSelectedEditorQuestion").addEventListener("click", pasteSelectedEditorQuestion);
 document.getElementById("button_deleteSelectedEditorQuestion").addEventListener("click", deleteSelectedEditorQuestion);
 for (let type of Object.keys(QuestionTypes)) {
 	let nextButton = document.createElement("button");
@@ -50,7 +62,7 @@ for (let id of Object.keys(extraOptions)) {
 	if (extraOptions[id].type === "text") {
 		let nextRow = createElement("tr", {id: "tr_extraOption_" + id});
 		nextRow.appendChild(createElement("td", {innerHTML: extraOptions[id].rowLabel ?? extraOptions[id].label}));
-		nextRow.appendChild(createElement("td", {id: "td_extraOption_" + id, contentEditable: "true"}, [["focusout", function(event) {changeCurrentQuestionProperty(id, extraOptions[id].readValue(event.target.innerHTML));}]]));
+		nextRow.appendChild(createElement("td", {id: "td_extraOption_" + id, contentEditable: "plaintext-only"}, [["focusout", function(event) {changeCurrentQuestionProperty(id, extraOptions[id].readValue(event.target.innerHTML));}]]));
 		document.getElementById("table_selectedQuestion").appendChild(nextRow);
 	}
 }

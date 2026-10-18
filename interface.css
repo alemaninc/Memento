@@ -30,7 +30,7 @@ table {
 		td, th {
 			vertical-align: top;
 			text-align: left;
-			span[contenteditable="true"] {
+			span[contentEditable="plaintext-only"] {
 				width: 100%;
 			}
 		}
@@ -55,8 +55,8 @@ table {
 	width: 400px;
 	font-size: 25px;
 }
-button, label, ::file-selector-button, [contenteditable="true"] {
-	&:not(td) {
+button, label, ::file-selector-button, [contentEditable="plaintext-only"], .mcqLongOption {
+	&:not(td)&:not(.mcqLongOption) {
 		display: inline-block;
 	}
 	background-color: rgba(0, 0, 0, 0);
@@ -76,7 +76,7 @@ button, label, ::file-selector-button, [contenteditable="true"] {
 		cursor: default;
 	}
 }
-[contenteditable="true"] {
+[contentEditable="plaintext-only"] {
 	text-align: left;
 }
 ::file-selector-button:hover {
@@ -206,6 +206,23 @@ button, label, ::file-selector-button, [contenteditable="true"] {
 		margin-left: 16px;
 	}
 }
+#div_quizPlayer {
+	li {
+		margin-bottom: 15px;
+	}
+	pre {
+		text-align: left;
+		margin-top: 6px;
+		margin-bottom: 15px;
+		text-wrap: auto;
+	}
+	.partDiv {
+		margin-bottom: 45px;
+	}
+}
+.questionNumber::marker {
+	font-weight: 700;
+}
 #table_totalMarkSelector {
 	tr {
 		td {
@@ -218,6 +235,7 @@ button, label, ::file-selector-button, [contenteditable="true"] {
 	width: 300px;
 	font-size: 20px;
 	text-align: center;
+	display: inline-block;
 }
 input, textarea {
 	color: #000000;

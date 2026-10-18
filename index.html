@@ -34,15 +34,23 @@
 			<table id="table_quizEditorRoot">
 				<tr>
 					<td>Quiz Title</td>
-					<td contenteditable="true" id="td_quizEditor_quizTitle"></td>
+					<td contentEditable="plaintext-only" id="td_quizEditor_quizTitle"></td>
 				</tr>
 				<tr>
 					<td>Quiz Abstract</td>
-					<td contenteditable="true" id="td_quizEditor_quizAbstract" data-blank_allowed="true"></td>
+					<td contentEditable="plaintext-only" id="td_quizEditor_quizAbstract" data-blank_allowed="true"></td>
+				</tr>
+				<tr>
+					<td>Quiz Instructions</td>
+					<td contentEditable="plaintext-only" id="td_quizEditor_quizInstructions" data-blank_allowed="true"></td>
 				</tr>
 				<tr>
 					<td>Grading Scale</td>
-					<td><button id="button_openGradingScaleWindow">No grading</button></td>
+					<td><button id="button_openGradingScaleWindow" style="text-align: left;">No grading</button></td>
+				</tr>
+				<tr>
+					<td>Topics</td>
+					<td><button id="button_openTopicList" style="text-align: left;">Topics not enabled</button></td>
 				</tr>
 				<tr>
 					<td>Questions</td>
@@ -51,7 +59,7 @@
 			</table>
 			<button class="menuButton" id="button_exportQuiz">Download quiz</button>
 		</div>
-		<div class="window" id="window_changeGradingScale" style="display: none;">
+		<div class="window" id="window_changeGradingScale" style="display: none; padding-bottom: 200px;">
 			<h2>Grading Scale</h2>
 			<button class="menuButton" id="button_setGradingScaleType0">No grading</button>
 			<button class="menuButton" id="button_setGradingScaleType1">Fixed grade thresholds</button>
@@ -59,10 +67,19 @@
 			<button class="menuButton" id="button_closeGradingScaleWindow">Return to quiz editor</button><br>
 			<table id="table_gradingScale"></table>
 		</div>
+		<div class="window" id="window_topicList" style="display: none; padding-bottom: 200px;">
+			<h2>Topics</h2>
+			<button class="menuButton" id="button_closeTopicList">Return to quiz editor</button>
+			<div id="table_topicList"></div>
+			<button id="button_addToTopicList" style="float: left;">Add topic</button>
+		</div>
 		<div class="window" id="window_questionEditor" style="display: none;">
 			<h2>Question Editor</h2>
 			<button class="menuButton" id="button_createQuestion">Create question</button>
+			<button class="menuButton" id="button_pasteQuestionToRoot">Paste question</button>
 			<button class="menuButton" id="button_closeQuestionEditorWindow">Return to quiz editor</button>
+			<button class="menuButton" id="button_filterEditorQuestions">Filter by topic</button>
+			<div id="div_editorFilterSelection"></div>
 			<div id="div_questionList"></div>
 		</div>
 		<div class="window" id="window_selectedEditorQuestion" style="display: none;">
@@ -75,7 +92,7 @@
 					</tr>
 					<tr>
 						<td>Question stem</td>
-						<td contenteditable="true" id="td_selectedQuestionStem" data-blank_allowed="true"></td>
+						<td contentEditable="plaintext-only" id="td_selectedQuestionStem" data-blank_allowed="true"></td>
 					</tr>
 					<tr>
 						<td id="td_questionEditorTypeSpecificHeading"></td>
@@ -89,6 +106,10 @@
 						<td>Question difficulty</td>
 						<td id="td_questionDifficulty"></td>
 					</tr>
+					<tr id="tr_questionTopic">
+						<td>Question topic</td>
+						<td id="td_questionTopic"></td>
+					</tr>
 					<tr>
 						<td>Extra Options</td>
 						<td id="td_extraOptionList"></td>
@@ -100,6 +121,8 @@
 			<button class="menuButton" id="button_inflateSelectedEditorQuestion">Inflate current question</button>
 			<button class="menuButton" id="button_deflateSelectedEditorQuestion">Deflate current question</button>
 			<button class="menuButton" id="button_duplicateSelectedEditorQuestion">Duplicate current question</button>
+			<button class="menuButton" id="button_cutSelectedEditorQuestion">Cut current question</button>
+			<button class="menuButton" id="button_pasteSelectedEditorQuestion">Paste current question</button>
 			<br>
 			<button class="menuButton" id="button_deleteSelectedEditorQuestion">Delete current question</button>
 		</div>
@@ -122,7 +145,7 @@
 		<div class="window" id="window_quizPlayerStart" style="display: none; width: 75vw;">
 			<h1 id="heading_quizPlayerStart"></h1>
 			<b style="float: left;">Quiz Abstract</b><br>
-			<div id="div_quizPlayerAbstract" style="text-align: left;"></div>
+			<div id="div_quizPlayerAbstract" style="text-align: left; max-width: 790px;"></div>
 			<br>
 			<div id="div_quizPlayerStartPart1">
 				<table id="table_totalMarkSelector">
@@ -142,11 +165,14 @@
 			<div id="div_quizPlayerStartPart2" style="display: none;">
 				<b style="float: left;">Instructions</b><br>
 				<ul id="div_quizPlayerInstructions" style="text-align: left;"></ul>
+				<br>
+				<b style="float: left;">Information</b><br>
+				<ul id="div_quizPlayerInformation" style="text-align: left;"></ul>
 				<button class="menuButton" id="button_startQuiz">Start quiz</button>
 			</div>
 		</div>
 		<div class="window" id="window_quizPlayer" style="display: none;">
-			<table id="div_quizPlayerTable" style="table-layout: fixed;"></table>
+			<div id="div_quizPlayer" style="table-layout: fixed; width: 100%;"></div>
 			<button class="menuButton" id="button_startQuestion">Continue</button>
 			<button class="menuButton" id="button_markQuestion">Continue</button>
 		</div>

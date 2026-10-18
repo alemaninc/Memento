@@ -8,6 +8,9 @@ export function setGradingScaleType(type) {
 	updateGradingScaleHeader();
 	updateGradingScaleTable();
 	document.getElementById("button_openGradingScaleWindow").innerHTML = ["No grading", "Fixed grade thresholds", "Adaptive grade thresholds"][globalThis.memento.gradingType];
+	if (type !== 0) {
+		document.getElementById("button_openGradingScaleWindow").innerHTML += "<br>Grades " + globalThis.memento.grades[0][0] + "-" + globalThis.memento.grades[globalThis.memento.grades.length - 1][0];
+	}
 }
 export function updateGradingScaleHeader() {
 	for (let mode = 0; mode < 3; mode++) {
@@ -42,7 +45,7 @@ export function updateGradingScaleTable() {
 			let col1 = document.createElement("td");
 			col1.className = "gradingTableCol1";
 			col1.innerHTML = globalThis.memento.grades[gradeNum][0];
-			col1.contentEditable = "true";
+			col1.contentEditable = "plaintext-only";
 			nextRow.appendChild(col1);
 			if (globalThis.memento.gradingType === 1) {
 				let col2 = document.createElement("td");
@@ -52,7 +55,7 @@ export function updateGradingScaleTable() {
 				} else if (gradeNum === (globalThis.memento.grades.length - 1)) {
 					col2.innerHTML = "0";
 				} else {
-					col2.contentEditable = "true";
+					col2.contentEditable = "plaintext-only";
 					col2.innerHTML = globalThis.memento.grades[gradeNum][1];
 				}
 				nextRow.appendChild(col2);

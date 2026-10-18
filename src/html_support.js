@@ -27,7 +27,10 @@ function untransformDynamicInput(event) {
 	event.target.remove();
 } */
 export function unfocusEditableSpan(event) {
-	if (event.target.contentEditable === "true") {
+	if (event.target.contentEditable === "plaintext-only") {
+		if (event.target.innerHTML.includes("<span>") || event.target.innerHTML.includes("<div>")) {
+			event.target.innerHTML = deHTML(event.target.innerHTML.replaceAll("<span>", "").replaceAll("</span>", "").replaceAll("<div>", "<br>").replaceAll("</div>", "").replaceAll("<br>", "\n")).replaceAll("\n", "<br>");
+		}
 		if ((deHTML(event.target.innerHTML) === "") && (event.target.dataset.blank_allowed !== "true")) {
 			event.target.innerHTML = "blank";
 		}
@@ -59,8 +62,11 @@ export function createTable(array, rowStyles = [], colStyles = []) {
 			for (let property of Object.keys(colStyles[colNum] ?? {})) {
 				nextCell.style[property] = colStyles[colNum][property];
 			}
-			let nextCellContents = (array[rowNum][colNum] instanceof HTMLElement) ? array[rowNum][colNum] : createElement("span", {innerHTML: array[rowNum][colNum]})
-			nextCell.appendChild(nextCellContents);
+			if (array[rowNum][colNum] instanceof HTMLElement) {
+				nextCell.appendChild(array[rowNum][colNum]);
+			} else {
+				nextCell.appendChild(createElement("span", {innerHTML: array[rowNum][colNum].replaceAll("\n", "<br>")}));
+			}
 			if ((array[rowNum].length - colNum) === 1) {
 				nextCell.colSpan = String(maximumTableColumns - colNum);
 			}
@@ -69,4 +75,12 @@ export function createTable(array, rowStyles = [], colStyles = []) {
 		table.appendChild(row);
 	}
 	return table;
+}
+export function removeHTMLFromInputField(event) {
+	if (event.target.contentEditable === "plaintext-only") {
+		let sanitisedText = deHTML(event.target.innerHTML.replaceAll("<br>", "\n")).replaceAll("\n", "<br>");
+		if (event.target.innerHTML !== sanitisedText) {
+			event.target.innerHTML = sanitisedText;
+		}
+	}
 }
